@@ -39,16 +39,21 @@ The HTML file for the sidebar interface. It allows users to trigger the file tre
 - Provides a "Generate Tree" button.
 - Shows a progress bar as the tree generation progresses.
 
+### 3. **Sidebar.js.html**
+
+This file contains the client-side JavaScript for handling the button click and progress bar updates in the sidebar. It interacts with the server-side Apps Script to update the progress in real-time.
+
 ## How to Use
 
 1. **Setup:**
    - Create a new Google Sheet.
    - Open the Script Editor (`Extensions` > `Apps Script`).
-   - Create two files: `Code.gs` for the script and `Sidebar.html` for the sidebar.
+   - Create three files: `Code.gs` for the script, `Sidebar.html` for the sidebar, and `Sidebar.js.html` for the client-side JavaScript.
 
 2. **Insert Code:**
    - Paste the provided JavaScript code into `Code.gs`.
    - Paste the sidebar HTML code into `Sidebar.html`.
+   - Paste the JavaScript for the progress bar into `Sidebar.js.html`.
 
 3. **Run the Script:**
    - Refresh the Google Sheet.
@@ -70,4 +75,3 @@ The HTML file for the sidebar interface. It allows users to trigger the file tre
 ## License
 
 This code is licensed under the MIT License.
-
