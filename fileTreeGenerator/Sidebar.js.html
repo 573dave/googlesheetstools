@@ -1,0 +1,62 @@
+<script>
+  let progressInterval;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const generateButton = document.getElementById('generateButton');
+    if (generateButton) {
+      generateButton.addEventListener('click', generateTree);
+    }
+  });
+
+  function generateTree() {
+    const button = document.getElementById('generateButton');
+    const progress = document.getElementById('progress');
+    const progressFill = document.getElementById('progressFill');
+    const statusText = document.getElementById('statusText');
+    const error = document.getElementById('error');
+
+    button.disabled = true;
+    progress.style.display = 'block';
+    progressFill.style.width = '0%';
+    statusText.textContent = 'Generating tree...';
+    error.style.display = 'none';
+
+    // Start polling for progress updates
+    progressInterval = setInterval(checkProgress, 1000);
+
+    google.script.run
+      .withSuccessHandler(function(result) {
+        clearInterval(progressInterval);
+        statusText.textContent = 'Done!';
+        progressFill.style.width = '100%';
+        setTimeout(() => {
+          progress.style.display = 'none';
+          button.disabled = false;
+        }, 3000);
+      })
+      .withFailureHandler(function(err) {
+        clearInterval(progressInterval);
+        error.textContent = 'Error: ' + err.message;
+        error.style.display = 'block';
+        progress.style.display = 'none';
+        button.disabled = false;
+      })
+      .generateTree();
+  }
+
+  function checkProgress() {
+    google.script.run
+      .withSuccessHandler(updateProgress)
+      .getProgress();
+  }
+
+  function updateProgress(progressData) {
+    const progressFill = document.getElementById('progressFill');
+    const statusText = document.getElementById('statusText');
+
+    if (progressData && progressData.percent !== undefined) {
+      progressFill.style.width = progressData.percent + '%';
+      statusText.textContent = `Processing ${progressData.folderName} (${progressData.percent}%)`;
+    }
+  }
+</script>
